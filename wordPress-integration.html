@@ -1,0 +1,632 @@
+<!-- WordPress KDP Calculator - Ready to Copy and Paste -->
+
+<div id="kdp-calculator-container" style="max-width: 1200px; margin: 0 auto; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <style>
+        #kdp-calculator-container * {
+            box-sizing: border-box;
+        }
+        
+        #kdp-calculator-container .kdp-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 3px solid #ff9900;
+        }
+        
+        #kdp-calculator-container .kdp-header h2 {
+            color: #232f3e;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        #kdp-calculator-container .kdp-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        #kdp-calculator-container .kdp-calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        #kdp-calculator-container .kdp-input-section, 
+        #kdp-calculator-container .kdp-results-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        #kdp-calculator-container .kdp-section-title {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #232f3e;
+            border-bottom: 2px solid #ff9900;
+            padding-bottom: 10px;
+        }
+        
+        #kdp-calculator-container .kdp-form-group {
+            margin-bottom: 20px;
+        }
+        
+        #kdp-calculator-container .kdp-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        #kdp-calculator-container .kdp-form-group input, 
+        #kdp-calculator-container .kdp-form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        #kdp-calculator-container .kdp-form-group input:focus, 
+        #kdp-calculator-container .kdp-form-group select:focus {
+            outline: none;
+            border-color: #ff9900;
+        }
+        
+        #kdp-calculator-container .kdp-radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        #kdp-calculator-container .kdp-radio-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        #kdp-calculator-container .kdp-radio-option input[type="radio"] {
+            width: auto;
+        }
+        
+        #kdp-calculator-container .kdp-calculate-btn {
+            background: #ff9900;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        #kdp-calculator-container .kdp-calculate-btn:hover {
+            background: #e68900;
+        }
+        
+        #kdp-calculator-container .kdp-result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        #kdp-calculator-container .kdp-result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            background: #f8f9fa;
+            margin: 10px -25px;
+            padding: 15px 25px;
+            border-radius: 5px;
+        }
+        
+        #kdp-calculator-container .kdp-result-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        #kdp-calculator-container .kdp-result-value {
+            font-size: 1.1em;
+            color: #232f3e;
+        }
+        
+        #kdp-calculator-container .kdp-highlight {
+            color: #ff9900;
+            font-weight: bold;
+        }
+        
+        #kdp-calculator-container .kdp-warnings {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        #kdp-calculator-container .kdp-warnings h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        #kdp-calculator-container .kdp-warning-item {
+            color: #856404;
+            margin-bottom: 5px;
+        }
+        
+        #kdp-calculator-container .kdp-pricing-suggestions {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        #kdp-calculator-container .kdp-suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        #kdp-calculator-container .kdp-suggestion-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        
+        #kdp-calculator-container .kdp-suggestion-card:hover {
+            border-color: #2196f3;
+        }
+        
+        #kdp-calculator-container .kdp-suggestion-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 5px;
+        }
+        
+        #kdp-calculator-container .kdp-suggestion-profit {
+            color: #388e3c;
+            font-weight: 600;
+        }
+        
+        #kdp-calculator-container .kdp-full-width {
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 768px) {
+            #kdp-calculator-container .kdp-calculator-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            #kdp-calculator-container .kdp-header h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+
+    <div class="kdp-header">
+        <h2>KDP Calculator</h2>
+        <p>Calculate your Amazon Kindle Direct Publishing earnings and book pricing</p>
+    </div>
+
+    <div class="kdp-calculator-grid">
+        <div class="kdp-input-section">
+            <h3 class="kdp-section-title">Book Details</h3>
+            
+            <div class="kdp-form-group">
+                <label>Book Format:</label>
+                <div class="kdp-radio-group">
+                    <div class="kdp-radio-option">
+                        <input type="radio" id="kdp-paperback" name="kdp-format" value="paperback" checked>
+                        <label for="kdp-paperback">Paperback</label>
+                    </div>
+                    <div class="kdp-radio-option">
+                        <input type="radio" id="kdp-hardcover" name="kdp-format" value="hardcover">
+                        <label for="kdp-hardcover">Hardcover</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kdp-form-group">
+                <label for="kdp-dimensions">Book Dimensions:</label>
+                <select id="kdp-dimensions">
+                    <option value="6x9">6" x 9" (Standard)</option>
+                    <option value="5.5x8.5">5.5" x 8.5"</option>
+                    <option value="5x8">5" x 8"</option>
+                    <option value="5.25x8">5.25" x 8"</option>
+                    <option value="6.14x9.21">6.14" x 9.21"</option>
+                    <option value="7x10">7" x 10"</option>
+                    <option value="8.5x11">8.5" x 11"</option>
+                    <option value="custom">Custom Size</option>
+                </select>
+            </div>
+
+            <div id="kdp-customDimensions" style="display: none;">
+                <div class="kdp-form-group">
+                    <label for="kdp-customWidth">Custom Width (inches):</label>
+                    <input type="number" id="kdp-customWidth" step="0.01" placeholder="6.00">
+                </div>
+                <div class="kdp-form-group">
+                    <label for="kdp-customHeight">Custom Height (inches):</label>
+                    <input type="number" id="kdp-customHeight" step="0.01" placeholder="9.00">
+                </div>
+            </div>
+
+            <div class="kdp-form-group">
+                <label for="kdp-pageCount">Page Count:</label>
+                <input type="number" id="kdp-pageCount" min="1" max="828" value="200">
+            </div>
+
+            <div class="kdp-form-group">
+                <label for="kdp-paperType">Paper Type:</label>
+                <select id="kdp-paperType">
+                    <option value="white">White Paper</option>
+                    <option value="cream">Cream Paper</option>
+                </select>
+            </div>
+
+            <div class="kdp-form-group">
+                <label for="kdp-inkType">Ink Type:</label>
+                <select id="kdp-inkType">
+                    <option value="black">Black & White</option>
+                    <option value="color">Color</option>
+                </select>
+            </div>
+
+            <h3 class="kdp-section-title">Pricing</h3>
+
+            <div class="kdp-form-group">
+                <label for="kdp-salePrice">Sale Price ($):</label>
+                <input type="number" id="kdp-salePrice" step="0.01" value="12.99">
+            </div>
+
+            <div class="kdp-form-group">
+                <label for="kdp-monthlySales">Estimated Monthly Sales:</label>
+                <input type="number" id="kdp-monthlySales" min="0" value="10">
+            </div>
+
+            <button class="kdp-calculate-btn" onclick="calculateKDP()">Calculate Earnings</button>
+        </div>
+
+        <div class="kdp-results-section">
+            <h3 class="kdp-section-title">Results</h3>
+            
+            <div id="kdp-results">
+                <div class="kdp-result-item">
+                    <span class="kdp-result-label">Print Cost per Book:</span>
+                    <span class="kdp-result-value" id="kdp-printCost">$0.00</span>
+                </div>
+                <div class="kdp-result-item">
+                    <span class="kdp-result-label">Amazon Commission (15%):</span>
+                    <span class="kdp-result-value" id="kdp-amazonCommission">$0.00</span>
+                </div>
+                <div class="kdp-result-item">
+                    <span class="kdp-result-label">Net Revenue:</span>
+                    <span class="kdp-result-value" id="kdp-netRevenue">$0.00</span>
+                </div>
+                <div class="kdp-result-item">
+                    <span class="kdp-result-label">Profit per Book:</span>
+                    <span class="kdp-result-value kdp-highlight" id="kdp-profitPerBook">$0.00</span>
+                </div>
+                <div class="kdp-result-item">
+                    <span class="kdp-result-label">Monthly Profit:</span>
+                    <span class="kdp-result-value kdp-highlight" id="kdp-monthlyProfit">$0.00</span>
+                </div>
+                <div class="kdp-result-item">
+                    <span class="kdp-result-label">Annual Profit:</span>
+                    <span class="kdp-result-value kdp-highlight" id="kdp-annualProfit">$0.00</span>
+                </div>
+            </div>
+
+            <div id="kdp-warnings"></div>
+
+            <div class="kdp-pricing-suggestions">
+                <h3>Suggested Pricing</h3>
+                <p>Optimal pricing based on your book specifications:</p>
+                <div class="kdp-suggestion-grid" id="kdp-pricingSuggestions">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// WordPress KDP Calculator JavaScript
+(function() {
+    'use strict';
+    
+    // KDP Calculator class
+    function KDPCalculator() {
+        this.dimensionCosts = {
+            '6x9': { base: 0.012, pages: 444 },
+            '5.5x8.5': { base: 0.010, pages: 444 },
+            '5x8': { base: 0.009, pages: 444 },
+            '5.25x8': { base: 0.0095, pages: 444 },
+            '6.14x9.21': { base: 0.013, pages: 444 },
+            '7x10': { base: 0.018, pages: 444 },
+            '8.5x11': { base: 0.025, pages: 444 }
+        };
+        
+        this.paperTypes = {
+            'white': 0,
+            'cream': 0.002
+        };
+        
+        this.inkTypes = {
+            'black': 0,
+            'color': 0.012
+        };
+        
+        this.amazonCommission = 0.15;
+        this.minimumPrice = 5.99;
+    }
+
+    KDPCalculator.prototype.calculatePrintCost = function() {
+        const format = document.querySelector('input[name="kdp-format"]:checked').value;
+        const pageCount = parseInt(document.getElementById('kdp-pageCount').value) || 0;
+        const paperType = document.getElementById('kdp-paperType').value;
+        const inkType = document.getElementById('kdp-inkType').value;
+        
+        let dimension = document.getElementById('kdp-dimensions').value;
+        let width, height;
+        
+        if (dimension === 'custom') {
+            width = parseFloat(document.getElementById('kdp-customWidth').value) || 6;
+            height = parseFloat(document.getElementById('kdp-customHeight').value) || 9;
+        } else {
+            const dims = dimension.split('x');
+            width = parseFloat(dims[0]);
+            height = parseFloat(dims[1]);
+        }
+        
+        let closestDim = this.findClosestDimension(width, height);
+        let costData = this.dimensionCosts[closestDim];
+        
+        let printCost = costData.base;
+        printCost += this.paperTypes[paperType];
+        printCost += this.inkTypes[inkType];
+        
+        let pageCost = 0.002;
+        if (inkType === 'color') {
+            pageCost = 0.015;
+        }
+        
+        printCost += (pageCount * pageCost);
+        
+        let finalCost = printCost;
+        
+        if (format === 'hardcover') {
+            finalCost += 2.50;
+        }
+        
+        return Math.max(finalCost, 2.55);
+    };
+
+    KDPCalculator.prototype.findClosestDimension = function(width, height) {
+        let closest = '6x9';
+        let closestDistance = Infinity;
+        
+        for (let dim in this.dimensionCosts) {
+            const [w, h] = dim.split('x').map(d => parseFloat(d));
+            const distance = Math.abs(width - w) + Math.abs(height - h);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = dim;
+            }
+        }
+        
+        return closest;
+    };
+
+    KDPCalculator.prototype.calculateRoyalties = function() {
+        const salePrice = parseFloat(document.getElementById('kdp-salePrice').value) || 0;
+        const printCost = this.calculatePrintCost();
+        
+        const amazonCommission = salePrice * this.amazonCommission;
+        const netRevenue = salePrice - amazonCommission;
+        const profitPerBook = netRevenue - printCost;
+        
+        return {
+            printCost,
+            amazonCommission,
+            netRevenue,
+            profitPerBook
+        };
+    };
+
+    KDPCalculator.prototype.generatePricingSuggestions = function() {
+        const printCost = this.calculatePrintCost();
+        const suggestions = [];
+        
+        const margins = [0.20, 0.30, 0.40, 0.50];
+        
+        margins.forEach(margin => {
+            const suggestedPrice = (printCost + (printCost * margin)) / (1 - this.amazonCommission);
+            
+            if (suggestedPrice >= this.minimumPrice) {
+                const netRevenue = suggestedPrice - (suggestedPrice * this.amazonCommission);
+                const profitPerBook = netRevenue - printCost;
+                
+                suggestions.push({
+                    price: suggestedPrice,
+                    profit: profitPerBook,
+                    margin: margin * 100
+                });
+            }
+        });
+        
+        return suggestions.slice(0, 3);
+    };
+
+    KDPCalculator.prototype.validateInputs = function() {
+        const warnings = [];
+        const pageCount = parseInt(document.getElementById('kdp-pageCount').value) || 0;
+        const salePrice = parseFloat(document.getElementById('kdp-salePrice').value) || 0;
+        const printCost = this.calculatePrintCost();
+        
+        if (pageCount < 1) {
+            warnings.push('Page count must be at least 1 page.');
+        }
+        if (pageCount > 828) {
+            warnings.push('Maximum page count for KDP is 828 pages.');
+        }
+        
+        if (salePrice < this.minimumPrice) {
+            warnings.push(`Minimum sale price is $${this.minimumPrice}.`);
+        }
+        
+        if (salePrice <= printCost) {
+            warnings.push('Sale price is too low and will result in a loss per book.');
+        }
+        
+        const royalties = this.calculateRoyalties();
+        if (royalties.profitPerBook < 1 && salePrice > printCost) {
+            warnings.push('Profit per book is very low. Consider increasing the sale price.');
+        }
+        
+        return warnings;
+    };
+
+    // Initialize calculator
+    const kdpCalc = new KDPCalculator();
+
+    // Main calculation function
+    function calculateKDP() {
+        try {
+            const royalties = kdpCalc.calculateRoyalties();
+            const monthlySales = parseInt(document.getElementById('kdp-monthlySales').value) || 0;
+            
+            document.getElementById('kdp-printCost').textContent = `$${royalties.printCost.toFixed(2)}`;
+            document.getElementById('kdp-amazonCommission').textContent = `$${royalties.amazonCommission.toFixed(2)}`;
+            document.getElementById('kdp-netRevenue').textContent = `$${royalties.netRevenue.toFixed(2)}`;
+            document.getElementById('kdp-profitPerBook').textContent = `$${royalties.profitPerBook.toFixed(2)}`;
+            document.getElementById('kdp-monthlyProfit').textContent = `$${(royalties.profitPerBook * monthlySales).toFixed(2)}`;
+            document.getElementById('kdp-annualProfit').textContent = `$${(royalties.profitPerBook * monthlySales * 12).toFixed(2)}`;
+            
+            updateKDPWarnings();
+            updateKDPPricingSuggestions();
+            
+        } catch (error) {
+            console.error('KDP Calculation error:', error);
+        }
+    }
+
+    function updateKDPWarnings() {
+        const warnings = kdpCalc.validateInputs();
+        const warningsDiv = document.getElementById('kdp-warnings');
+        
+        if (warnings.length > 0) {
+            let warningHTML = '<div class="kdp-warnings"><h4>⚠️ Considerations:</h4>';
+            warnings.forEach(warning => {
+                warningHTML += `<div class="kdp-warning-item">• ${warning}</div>`;
+            });
+            warningHTML += '</div>';
+            warningsDiv.innerHTML = warningHTML;
+        } else {
+            warningsDiv.innerHTML = '';
+        }
+    }
+
+    function updateKDPPricingSuggestions() {
+        const suggestions = kdpCalc.generatePricingSuggestions();
+        const suggestionsDiv = document.getElementById('kdp-pricingSuggestions');
+        
+        let suggestionsHTML = '';
+        suggestions.forEach(suggestion => {
+            suggestionsHTML += `
+                <div class="kdp-suggestion-card">
+                    <div class="kdp-suggestion-price">$${suggestion.price.toFixed(2)}</div>
+                    <div class="kdp-suggestion-profit">Profit: $${suggestion.profit.toFixed(2)}</div>
+                    <div class="kdp-suggestion-margin">${suggestion.margin}% margin</div>
+                </div>
+            `;
+        });
+        
+        if (suggestionsHTML) {
+            suggestionsDiv.innerHTML = suggestionsHTML;
+        } else {
+            suggestionsDiv.innerHTML = '<p>Unable to generate pricing suggestions. Check your book specifications.</p>';
+        }
+    }
+
+    // Event listeners setup
+    function setupKDPEventListeners() {
+        // Calculate button
+        const calculateBtn = document.querySelector('.kdp-calculate-btn');
+        if (calculateBtn) {
+            calculateBtn.addEventListener('click', calculateKDP);
+        }
+        
+        // Format change handler
+        document.querySelectorAll('input[name="kdp-format"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                updateKPFormForFormat(this.value);
+            });
+        });
+        
+        // Dimension change handler
+        const dimensionsSelect = document.getElementById('kdp-dimensions');
+        if (dimensionsSelect) {
+            dimensionsSelect.addEventListener('change', function() {
+                const customDiv = document.getElementById('kdp-customDimensions');
+                if (this.value === 'custom') {
+                    customDiv.style.display = 'block';
+                } else {
+                    customDiv.style.display = 'none';
+                }
+            });
+        }
+        
+        // Auto-calculate on input changes (debounced)
+        const inputs = document.querySelectorAll('#kdp-calculator-container input, #kdp-calculator-container select');
+        let calculationTimeout;
+        
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                clearTimeout(calculationTimeout);
+                calculationTimeout = setTimeout(calculateKDP, 500);
+            });
+            
+            input.addEventListener('change', calculateKDP);
+        });
+    }
+
+    function updateKPFormForFormat(format) {
+        const paperTypeSelect = document.getElementById('kdp-paperType');
+        const inkTypeSelect = document.getElementById('kdp-inkType');
+        
+        if (format === 'hardcover') {
+            paperTypeSelect.value = 'white';
+            paperTypeSelect.disabled = true;
+            
+            if (inkTypeSelect.value === 'black') {
+                inkTypeSelect.value = 'color';
+            }
+        } else {
+            paperTypeSelect.disabled = false;
+            inkTypeSelect.disabled = false;
+        }
+    }
+
+    // Initialize when DOM is ready
+    function initializeKDPCalculator() {
+        setupKDPEventListeners();
+        calculateKDP(); // Initial calculation
+    }
+
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeKDPCalculator);
+    } else {
+        initializeKDPCalculator();
+    }
+
+})();

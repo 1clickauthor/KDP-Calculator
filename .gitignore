@@ -1,0 +1,67 @@
+# WordPress KDP Calculator - Git Ignore File
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Log files
+*.log
+logs/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Backup files
+*.bak
+*.backup
+
+# WordPress specific
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/backup-*
+wp-content/upgrade/
+wp-content/debug.log
+
+# Custom development files
+dev-notes.md
+test-files/
+development-notes.txt
